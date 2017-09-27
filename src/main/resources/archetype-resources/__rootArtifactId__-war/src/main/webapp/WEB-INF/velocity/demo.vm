@@ -1,0 +1,93 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<section>
+    <div>this is <span style="color: green">DEMO</span> page.</div>
+    goto: <a href="demo">DEMO</a>
+    <div>
+        <form id="saveForm" method="post" action="save">
+            <input name="systemKey" type="text"/>
+            <input type="button" id="save" value="save" />
+            <input type="submit" value="sub" />
+        </form>
+
+        <input type="button" id="list" value="list" />
+        <div id="data">
+        </div>
+
+        <form id="delForm" method="post">
+            <span>删除systemKey：</span><input name="id" type="text"/>
+            <input type="button" id="del" value="del" />
+        </form>
+    </div>
+</section>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript">
+    function AccessLog(key) {
+        this.systemKey = key;
+    }
+
+    AccessLog.prototype._post = function (type, id, fun) {
+        if (id) {
+            ${symbol_dollar}.post(type, {id: id}, function (resp) {
+                console.log(resp)
+            });
+        } else {
+            var data = JSON.stringify(this);
+            console.log(this, data);
+            ${symbol_dollar}.post(type, JSON.parse(data), function (resp) {
+                if (fun) {
+                    fun(resp);
+                } else {
+                    console.log(resp)
+                }
+
+            });
+        }
+
+    }
+
+    AccessLog.prototype.save = function () {
+        this._post("save");
+    }
+    AccessLog.prototype.del = function (id) {
+        this._post("del", id);
+    }
+    AccessLog.prototype.list = function (fun) {
+        this._post("list", null, fun);
+    }
+
+    var acLog = new AccessLog();
+    
+    ${symbol_dollar}(function () {
+        ${symbol_dollar}("${symbol_pound}save").click(function () {
+            acLog.systemKey = ${symbol_dollar}("${symbol_pound}saveForm [name=systemKey]").val();
+            acLog.save();
+        });
+
+        ${symbol_dollar}("${symbol_pound}list").click(function () {
+            var data = acLog.list(function (data) {
+                console.log(data);
+                if (data && data.resultData) {
+                    ${symbol_dollar}("${symbol_pound}data").empty();
+                    var ulDom = ${symbol_dollar}("<ul></ul>");
+                    for (var i = 0; i < data.resultData.length; i++) {
+                        ulDom.append("<li>"+data.resultData[i].systemKey+"------"+data.resultData[i].id+"</li>");
+                    }
+
+                    ${symbol_dollar}("${symbol_pound}data").append(ulDom);
+                }
+            });
+
+        });
+
+        ${symbol_dollar}("${symbol_pound}del").click(function () {
+            var id = ${symbol_dollar}("${symbol_pound}delForm [name=id]").val();
+            acLog.del(id);
+        });
+
+    });
+</script>

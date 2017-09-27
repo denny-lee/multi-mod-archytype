@@ -1,0 +1,16 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<component name="libraryTable">
+  <library name="Maven: ${groupId}:tubobo-merchant-api:1.4.3-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://${symbol_dollar}MAVEN_REPOSITORY${symbol_dollar}/com/xinguang/tubobo-merchant-api/1.4.3-SNAPSHOT/tubobo-merchant-api-1.4.3-20170927.063850-34.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://${symbol_dollar}MAVEN_REPOSITORY${symbol_dollar}/com/xinguang/tubobo-merchant-api/1.4.3-SNAPSHOT/tubobo-merchant-api-1.4.3-20170927.063850-34-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://${symbol_dollar}MAVEN_REPOSITORY${symbol_dollar}/com/xinguang/tubobo-merchant-api/1.4.3-SNAPSHOT/tubobo-merchant-api-1.4.3-20170927.063850-34-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,28 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="${artifactId}-api" />
+        <module name="${artifactId}-impl" />
+        <module name="${artifactId}-inner-api" />
+        <module name="${artifactId}-war" />
+        <module name="${artifactId}-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="${artifactId}" target="1.7" />
+      <module name="${artifactId}-api" target="1.7" />
+      <module name="${artifactId}-impl" target="1.7" />
+      <module name="${artifactId}-inner-api" target="1.7" />
+      <module name="${artifactId}-war" target="1.7" />
+      <module name="${artifactId}-web" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

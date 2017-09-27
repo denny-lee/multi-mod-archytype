@@ -1,0 +1,16 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}.iml" filepath="${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}.iml" />
+      <module fileurl="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-api/${artifactId}-api.iml" filepath="${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-api/${artifactId}-api.iml" />
+      <module fileurl="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-impl/${artifactId}-impl.iml" filepath="${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-impl/${artifactId}-impl.iml" />
+      <module fileurl="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-inner-api/${artifactId}-inner-api.iml" filepath="${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-inner-api/${artifactId}-inner-api.iml" />
+      <module fileurl="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-war/${artifactId}-war.iml" filepath="${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-war/${artifactId}-war.iml" />
+      <module fileurl="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-web/${artifactId}-web.iml" filepath="${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-web/${artifactId}-web.iml" />
+    </modules>
+  </component>
+</project>

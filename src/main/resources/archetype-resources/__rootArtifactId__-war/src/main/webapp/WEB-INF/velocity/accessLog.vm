@@ -1,0 +1,64 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<style type="text/css">
+    .item {
+        padding: 0 10px;
+        width: 50px;
+        display: inline-block;
+        text-align: right;
+    }
+</style>
+<section>
+    <div>Search Page.</div>
+    <div>
+        <div>search access log:</div>
+        <form action="/secretdoor/accesslog" method="get">
+            <div>
+                <span class="item">ip:</span><input type="text" name="ip" value="${symbol_dollar}!ip" />
+                <span class="item">userId:</span><input type="text" name="userId" value="${symbol_dollar}!userId" />
+                <input type="submit" value="search" />
+            </div>
+
+        </form>
+    </div>
+    <hr/>
+    <div>
+        ${symbol_pound}if(${symbol_dollar}logs)
+            <table width="100%">
+                <tr>
+                    <th>No.</th>
+                    <th>userId</th>
+                    <th>ip</th>
+                    <th>targetUrl</th>
+                    <th>status</th>
+                    <th>time</th>
+                    <th>process</th>
+                    <th>remark</th>
+                </tr>
+            ${symbol_pound}foreach(${symbol_dollar}log in ${symbol_dollar}logs)
+            <tr>
+                <td align="center">${symbol_dollar}foreach.count</td>
+                <td align="center">${symbol_dollar}!log.userId</td>
+                <td align="center">${symbol_dollar}!log.ip</td>
+                <td align="center">${symbol_dollar}!log.targetUrl</td>
+                <td align="center">${symbol_dollar}!log.status</td>
+                <td align="center">${symbol_dollar}!log.createGmt</td>
+                <td align="center">${symbol_dollar}!log.process</td>
+                <td align="center" width="20%">${symbol_dollar}!log.remark</td>
+            </tr>
+        ${symbol_pound}end
+            </table>
+${symbol_pound}end
+    </div>
+</section>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript">
+
+    ${symbol_dollar}(function () {
+
+    })
+</script>

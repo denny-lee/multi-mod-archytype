@@ -1,0 +1,15 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}" charset="UTF-8" />
+    <file url="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-api" charset="UTF-8" />
+    <file url="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-impl" charset="UTF-8" />
+    <file url="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-inner-api" charset="UTF-8" />
+    <file url="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-war" charset="UTF-8" />
+    <file url="file://${symbol_dollar}PROJECT_DIR${symbol_dollar}/${artifactId}-web" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

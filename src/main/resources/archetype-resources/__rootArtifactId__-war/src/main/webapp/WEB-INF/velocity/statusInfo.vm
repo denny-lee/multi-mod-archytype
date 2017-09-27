@@ -1,0 +1,69 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<style type="text/css">
+    .item {
+        padding: 0 10px;
+        width: 80px;
+        display: inline-block;
+        text-align: right;
+    }
+</style>
+<section>
+    <div>Search Page.</div>
+    <div>
+        <div>search pushed status:</div>
+        <form action="/secretdoor/statusinfo" method="get">
+            <div>
+                <span class="item">pushed:</span><input type="text" name="pushed" value="${symbol_dollar}!pushed"/>
+                <span class="item">orderNo:</span><input type="text" name="orderNo" value="${symbol_dollar}!orderNo" />
+                <span class="item">userId:</span><input type="text" name="userId" value="${symbol_dollar}!userId" />
+                <span class="item">status:</span><input type="text" name="status" value="${symbol_dollar}!status" />
+                <input type="submit" value="search" />
+            </div>
+        </form>
+    </div>
+    <hr/>
+    <div>
+        ${symbol_pound}if(${symbol_dollar}statusList)
+            <table width="100%">
+                <tr>
+                    <th>No.</th>
+                    <th>userId</th>
+                    <th>orderNo</th>
+                    <th>pushed</th>
+                    <th>retryTimes</th>
+                    <th>status</th>
+                    <th>changeTime</th>
+                    <th>timestamp</th>
+                    <th>riderId</th>
+                    <th>riderName</th>
+                    <th>riderPhone</th>
+                </tr>
+                ${symbol_pound}foreach(${symbol_dollar}stat in ${symbol_dollar}statusList)
+                    <tr>
+                        <td align="center">${symbol_dollar}foreach.count</td>
+                        <td align="center">${symbol_dollar}!stat.userId</td>
+                        <td align="center">${symbol_dollar}!stat.orderNo</td>
+                        <td align="center">${symbol_dollar}!stat.pushed</td>
+                        <td align="center">${symbol_dollar}!stat.retryTimes</td>
+                        <td align="center">${symbol_dollar}!stat.status</td>
+                        <td align="center">${symbol_dollar}!stat.modifyGmt</td>
+                        <td align="center">${symbol_dollar}!stat.timestamp</td>
+                        <td align="center">${symbol_dollar}!stat.riderId</td>
+                        <td align="center">${symbol_dollar}!stat.riderName</td>
+                        <td align="center">${symbol_dollar}!stat.riderPhone</td>
+                    </tr>
+                ${symbol_pound}end
+            </table>
+        ${symbol_pound}end
+    </div>
+</section>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript">
+
+    ${symbol_dollar}(function () {
+
+    })
+</script>

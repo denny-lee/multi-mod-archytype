@@ -1,0 +1,96 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+
+    <description>Spring MVC Configuration</description>
+    <!-- 加载配置属性文件 -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:/my.properties" />
+    <import resource="spring-context-disconf.xml" />
+    <import resource="spring-context-dubbo.xml" />
+
+    <context:component-scan base-package="${package}" />
+
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${symbol_dollar}{jdbc.driver}" />
+        <property name="url" value="${symbol_dollar}{jdbc.url}" />
+        <property name="username" value="${symbol_dollar}{jdbc.username}" />
+        <property name="password" value="${symbol_dollar}{jdbc.password}" />
+        <property name="initialSize" value="${symbol_dollar}{jdbc.pool.minIdle}" />
+        <property name="minIdle" value="${symbol_dollar}{jdbc.pool.minIdle}" />
+        <property name="maxActive" value="${symbol_dollar}{jdbc.pool.maxActive}" />
+        <property name="maxWait" value="60000" />
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+        <property name="validationQuery" value="SELECT 1" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="true" />
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat" />
+    </bean>
+
+    <bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="packagesToScan" value="${package}.entity"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
+                <prop key="hibernate.search.default.indexBase">${symbol_dollar}{hibernate.search.default.indexBase}</prop>
+                <prop key="hibernate.show_sql">${symbol_dollar}{hibernate.show_sql}</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="mySessionFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <mvc:annotation-driven />
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/"/>
+        <property name="configLocation" value="classpath:common/velocity.properties"/>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="cache" value="true"/>
+        <property name="layoutUrl" value="/WEB-INF/velocity/layout/default.vm"/>
+        <property name="prefix" value="/WEB-INF/velocity/"/>
+        <property name="suffix" value=".vm"/>
+        <property name="contentType" value="text/html;charset=UTF-8" />
+    </bean>
+
+    <!-- 拦截器配置 -->
+    <mvc:interceptors>
+        <bean class="${package}.interceptor.LogInterceptor" />
+    </mvc:interceptors>
+
+    <bean id="jspViewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/errorPage" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    <!--<mvc:view-controller path="/" view-name="redirect:index.jsp"/>-->
+    <mvc:default-servlet-handler/>
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="/400" />
+    </bean>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>

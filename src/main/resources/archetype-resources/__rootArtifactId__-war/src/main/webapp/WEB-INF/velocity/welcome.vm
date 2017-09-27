@@ -1,0 +1,128 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<section>
+    <input type="text" id="_csrf" value="${symbol_dollar}{_csrf.token}"/>
+    <input type="text" id="_csrf_header" value="${symbol_dollar}{_csrf.headerName}"/>
+
+    <div>this is welcome page.</div>
+    goto: <a href="demo">DEMO</a>
+    <div>
+        ${symbol_pound}*<form action="save" method="post">
+            <input name="name" type="text"/>
+            <input type="submit" value="sub" />
+        </form>*${symbol_pound}
+
+        <form>
+            <input type="text" id="msg" />
+            <input type="button" id="send" value="send" />
+            <input type="button" id="connect" value="connect" />
+            <input type="button" id="disconnect" value="disconnect" />
+            <input type="text" id="ses" />
+            <input type="button" id="sendToClient" value="sendToClient" />
+        </form>
+    </div>
+
+    <div>
+        <input type="button" id="creatOrder" value="creatOrder" />
+    </div>
+</section>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script type="text/javascript">
+    var stompClient = null;
+
+    function setConnected(connected) {
+        ${symbol_dollar}("${symbol_pound}connect").prop("disabled", connected);
+        ${symbol_dollar}("${symbol_pound}disconnect").prop("disabled", !connected);
+
+    }
+
+    function connect() {
+        var socket = new SockJS('/dak/msgcenter');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            setConnected(true);
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/queue/hello/xxx', function (greeting) {
+                console.log(greeting);
+                showGreeting(JSON.parse(greeting.body).text);
+            });
+        });
+    }
+    function showGreeting(message) {
+        console.log(message)
+    }
+
+    function disconnect() {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log("Disconnected");
+    }
+
+    function sendName() {
+        stompClient.send("/app/heartbeat/71091", {}, "ping");
+    }
+
+    function sendToClient() {
+        var url = "sendMsg";
+        var session = ${symbol_dollar}('${symbol_pound}ses').val();
+        if (session) {
+            url += "?user="+session;
+        }
+        ${symbol_dollar}.get(url);
+    }
+
+
+    ${symbol_dollar}(function () {
+
+        ${symbol_dollar}( "${symbol_pound}connect" ).click(function() { connect(); });
+        ${symbol_dollar}( "${symbol_pound}disconnect" ).click(function() { disconnect(); });
+        ${symbol_dollar}( "${symbol_pound}send" ).click(function() { sendName(); });
+        ${symbol_dollar}( "${symbol_pound}sendToClient" ).click(function() { sendToClient(); });
+
+
+        ${symbol_dollar}('${symbol_pound}creatOrder').click(function () {
+            var param={
+                userId: 'user111',
+                systemKey: 'Shiji',
+                requestData: '{consignor: {addressDetail: "上城区近江时代大厦A座1号", latitude: 110.008,longitude: 160.008, telephone: "1388888888"}, receiver: {addressDetail: "滨江区明豪国际大厦A座1号", latitude: 110.008,longitude: 160.008, telephone: "1388888888"}}'
+            };
+            ${symbol_dollar}.post('/dak/order/create', param, function (data) {
+                console.log(data)
+            });
+        });
+        /*var wsocket = new SockJS('/chat');
+        var client = Stomp.over(wsocket);
+        client.connect({}, function(frame) {
+            client.subscribe('/topic/messages', function (message) {
+//                showMessage(JSON.parse(message.body));
+                console.log(message);
+            });
+        });
+
+        ${symbol_dollar}("${symbol_pound}send").click(function () {
+            client.send("/chat/aabbc", {}, JSON.stringify({
+                systemKey: ${symbol_dollar}('${symbol_pound}msg').val(),
+            }))
+        });*/
+
+
+//        var sock = new SockJS("http://localhost:8080/war/myHandler");
+        /*sock.onopen = function () {
+            console.log("---connected..---")
+        }
+        sock.onmessage = function (e) {
+            console.log("server msg:"+e.data);
+        }
+        ${symbol_dollar}("${symbol_pound}send").click(function () {
+            sock.send(JSON.stringify({type:'text',message: ${symbol_dollar}("${symbol_pound}msg").val()}));
+        });*/
+    })
+</script>

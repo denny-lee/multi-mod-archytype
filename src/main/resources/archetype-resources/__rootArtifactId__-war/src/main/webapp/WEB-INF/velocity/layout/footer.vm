@@ -1,0 +1,6 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<footer>
+    Copyright &copy; 2017-2018 Tubobo-Launcher. All rights reserved.
+</footer>

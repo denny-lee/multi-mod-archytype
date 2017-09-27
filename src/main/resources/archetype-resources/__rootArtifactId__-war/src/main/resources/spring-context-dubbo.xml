@@ -1,0 +1,22 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="${symbol_dollar}{dubbo.appname}" />
+    <dubbo:registry protocol="${symbol_dollar}{dubbo.zk}" group="${symbol_dollar}{dubbo.group}" address="${symbol_dollar}{dubbo.zkAddress}" />
+    <!--<dubbo:protocol name="dubbo" port="20892" />-->
+    <dubbo:protocol name="${symbol_dollar}{dubbo.protocolname}" port="${symbol_dollar}{dubbo.port}" />
+    <!--<dubbo:provider retries="0" />-->
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="${package}.inner.api.TbbOrderServiceInterface" group="${symbol_dollar}{dubbo.group}" version="0.0.1" ref="orderStatusService" timeout="3000"/>
+    <bean id="orderStatusService" class="${package}.service.impl.TbbOrderServiceImpl" />
+
+    <dubbo:reference id="merchantToThirdPartyService" interface="${groupId}.tubobo.merchant.api.MerchantToThirdPartyServiceInterface"  group="${symbol_dollar}{dubbo.group}" version="0.0.1" check="false"/>
+
+</beans>
